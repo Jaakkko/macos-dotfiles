@@ -1,0 +1,78 @@
+[general]
+import = []
+
+[window]
+padding = { x = 10, y = 10 }
+decorations = "full"
+opacity = 1.0
+option_as_alt = "None"
+
+[font]
+size = 16.0
+[font.normal]
+family = "JetBrains Mono"
+style = "Regular"
+
+[colors.primary]
+background = "#ffffff"
+foreground = "#000000"
+
+[[keyboard.bindings]]
+action = "Copy"
+key = "C"
+mods = "Command"
+
+[[keyboard.bindings]]
+action = "Paste"
+key = "V"
+mods = "Command"
+
+# --- Manual Shell Navigation & Editing ---
+
+# Alt + F: Move Forward one word
+[[keyboard.bindings]]
+chars = "\u001bf"
+key = "F"
+mods = "Alt"
+
+# Alt + B: Move Backward one word
+[[keyboard.bindings]]
+chars = "\u001bb"
+key = "B"
+mods = "Alt"
+
+# Alt + D: Delete Word Forward
+[[keyboard.bindings]]
+chars = "\u001bd"
+key = "D"
+mods = "Alt"
+
+# Alt + Backspace: Delete Word Backward
+[[keyboard.bindings]]
+chars = "\u001bw"
+key = "Back"
+mods = "Alt"
+
+# Alt + . : Paste last argument from previous command
+[[keyboard.bindings]]
+chars = "\u001b."
+key = "Period"
+mods = "Alt"
+
+# Alt + U : Uppercase word
+[[keyboard.bindings]]
+chars = "\u001bu"
+key = "U"
+mods = "Alt"
+
+# Alt + L : Lowercase word
+[[keyboard.bindings]]
+chars = "\u001bl"
+key = "L"
+mods = "Alt"
+
+# Alt + C : Capitalize word
+[[keyboard.bindings]]
+chars = "\u001bc"
+key = "C"
+mods = "Alt"
