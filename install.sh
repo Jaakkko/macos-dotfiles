@@ -3,39 +3,45 @@
 # Figure out the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Define paths relative to the script location
-SOURCE_CONFIG="$SCRIPT_DIR/alacritty.toml"
-DEST_DIR="$HOME/.config/alacritty"
-DEST_CONFIG="$DEST_DIR/alacritty.toml"
+echo "--- Dotfiles Installer ---"
 
-echo "--- Alacritty Configuration Installer ---"
+# Function to link files safely
+link_file() {
+    local src=$1
+    local dest=$2
+    local name=$3
 
-# 1. Check if the source file actually exists in this folder
-if [ ! -f "$SOURCE_CONFIG" ]; then
-    echo "Error: Cannot find $SOURCE_CONFIG"
-    exit 1
-fi
+    echo "Checking $name..."
 
-# 2. Create the destination directory if it doesn't exist
-if [ ! -d "$DEST_DIR" ]; then
-    echo "Creating directory: $DEST_DIR"
-    mkdir -p "$DEST_DIR"
-fi
+    # Ensure the destination directory exists
+    mkdir -p "$(dirname "$dest")"
 
-# 3. Check if the config file already exists at the destination
-if [ -L "$DEST_CONFIG" ] || [ -f "$DEST_CONFIG" ]; then
-    # Prompt user; the "N" in (y/N) indicates it's the default
-    read -p "Alacritty config already exists at $DEST_CONFIG. Overwrite? (y/N): " confirm
-    if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
-        echo "Aborted. No changes made."
-        exit 0
+    if [ -L "$dest" ] || [ -f "$dest" ]; then
+        read -p "$name already exists at $dest. Overwrite? (y/N): " confirm
+        if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+            echo "Skipping $name."
+            return
+        fi
+        rm "$dest"
     fi
-    # Remove existing file/link to make room for the new link
-    rm "$DEST_CONFIG"
+
+    ln -s "$src" "$dest"
+    echo "Success: Linked $name"
+}
+
+# 1. Install Alacritty Config
+if [ -f "$SCRIPT_DIR/alacritty.toml" ]; then
+    link_file "$SCRIPT_DIR/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml" "Alacritty"
+else
+    echo "Warning: alacritty.toml not found in $SCRIPT_DIR"
 fi
 
-# 4. Create the symbolic link
-ln -s "$SOURCE_CONFIG" "$DEST_CONFIG"
+# 2. Install Vim Config
+if [ -f "$SCRIPT_DIR/.vimrc" ]; then
+    link_file "$SCRIPT_DIR/.vimrc" "$HOME/.vimrc" "Vim"
+else
+    echo "Warning: .vimrc not found in $SCRIPT_DIR"
+fi
 
-echo "Success! Config linked from: $SOURCE_CONFIG"
-echo "To: $DEST_CONFIG"
+echo "--- Installation Complete ---"
+
