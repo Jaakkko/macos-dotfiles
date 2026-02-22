@@ -35,3 +35,21 @@ cnoremap å <C-c>
 
 set ttimeoutlen=50
 
+function! InsertGitLog()
+    let l:repo = input('Path to repo: ', expand('~') . '/', 'dir')
+    if l:repo == '' | return | endif
+
+    execute "normal! i```git"
+
+    " Use double backslashes (\\%) so Vim doesn't swap % for your filename
+    let l:cmd = "git -C " . l:repo . " log --oneline --since='7days ago' " .
+              \ "--pretty=format:'\\%h \\%ad | \\%s' " .
+              \ "--date=format:'\\%Y-\\%m-\\%d \\%H:\\%M:\\%S'"
+
+    execute "r !" . l:cmd
+
+    execute "normal! o```\<CR>"
+endfunction
+
+nnoremap <leader>gl :call InsertGitLog()<CR>
+
