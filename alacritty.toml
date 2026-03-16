@@ -3,6 +3,7 @@ import = []
 
 [window]
 padding = { x = 10, y = 10 }
+dimensions = { columns = 180, lines = 50 }
 decorations = "full"
 opacity = 1.0
 option_as_alt = "None"
