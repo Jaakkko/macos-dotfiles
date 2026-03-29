@@ -50,8 +50,14 @@ mods = "Alt"
 
 # Alt + Backspace: Delete Word Backward
 [[keyboard.bindings]]
-chars = "\u001bw"
+chars = "\u001b\u007f"
 key = "Back"
+mods = "Alt"
+
+# Alt + H: Delete Word Backward (alternative)
+[[keyboard.bindings]]
+chars = "\u001b\u007f"
+key = "H"
 mods = "Alt"
 
 # Alt + . : Paste last argument from previous command
